@@ -1,3 +1,7 @@
+# Cool stuff    
+https://calcotestudios.com/talks/decks/slides-velocity-london-2018-using-istio-workshop.html    
+
+
 # Istio
 An open platform to connect, manage, and secure microservices.
 
