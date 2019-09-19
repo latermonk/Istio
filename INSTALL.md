@@ -108,6 +108,8 @@ add :
 source ~/istioctl.bash
 
 
+
+then:
 source  ~/.bashrc 
 
 ```
@@ -179,4 +181,14 @@ kubectl get svc -n istio-system
 kubectl get pods -n istio-system
 
 ```
+## Deploy your application  -  Bookinfo Application
+
+# Bookinfo Application
+
+
+[noistio](_image/noistio.svg)
+
+[withistio](_image/withistio.svg)
+
+
 
