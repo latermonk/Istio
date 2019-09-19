@@ -16,6 +16,10 @@ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.3.0 sh -
 ```
 cd  istio-1.3.0
 ```
+
+![istio-src](_image/istio-src.png)
+
+
 ***code tree***
 
 The installation directory contains:
@@ -186,9 +190,88 @@ kubectl get pods -n istio-system
 # Bookinfo Application
 
 
-[noistio](_image/noistio.svg)
 
-[withistio](_image/withistio.svg)
+![noistio](_image/noistio.png)
+
+
+![withistio](_image/withistio.png)
+
+
+### Start the application services
+
+```
+cd ~/istio-1.3.0
+```
+
+```
+kubectl label namespace default istio-injection=enabled
+
+```
+
+```
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+
+```
+
+```
+k get svc,po
+```
+
+```
+kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+
+```
+### Determine the ingress IP and port
+
+```
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+
+```
+
+```
+kubectl get gateway
+
+```
+
+```
+kubectl get svc istio-ingressgateway -n istio-system
+
+
+export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+
+
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+
+
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+
+echo $GATEWAY_URL
+```
+
+## Confirm the app is accessible from outside the cluster
+
+
+```
+curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+
+```
+
+## Apply default destination rules
+
+```
+kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
+
+```
+check:
+
+
+```
+kubectl get destinationrules -o yaml
+
+```
+
+
 
 
 
