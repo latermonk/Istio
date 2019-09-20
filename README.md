@@ -4,9 +4,7 @@ https://developer.ibm.com/cn/os-academy-istio/
 
 
 
-```
-[![Watch the video](https://img.youtube.com/vi/26kbaZxcB4A/maxresdefault.jpg)](https://youtu.be/26kbaZxcB4A)
-```
+
 
 
 
